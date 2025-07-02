@@ -1,0 +1,67 @@
+# Data Configuration for H&M Recommender System
+
+data_paths:
+  raw_data: "data/raw"
+  processed_data: "data/processed" 
+  features_data: "data/features"
+  
+  # Raw data files
+  customers_file: "data/raw/customers.csv"
+  articles_file: "data/raw/articles.csv"
+  transactions_file: "data/raw/transactions_train.csv"
+
+# Data processing parameters
+processing:
+  # Customer features
+  customer:
+    min_age: 16
+    max_age: 99
+    default_age: 35
+    age_bins: [16, 25, 35, 45, 55, 65, 99]
+    
+  # Article features  
+  article:
+    min_price: 0.001
+    max_price: 1.0
+    price_bins: [0, 0.01, 0.02, 0.03, 0.05, 0.1, 1.0]
+    
+  # Transaction features
+  transaction:
+    min_date: "2018-09-20"
+    max_date: "2020-09-22"
+    train_end_date: "2020-09-15"
+    validation_days: 7
+    
+# Feature engineering parameters
+features:
+  # Customer behavioral features
+  customer_behavior:
+    recency_days: [7, 30, 90, 365]
+    frequency_periods: ["1M", "3M", "6M", "1Y"]
+    monetary_percentiles: [25, 50, 75, 90, 95]
+    
+  # Article popularity features
+  article_popularity:
+    popularity_windows: ["7D", "30D", "90D", "1Y"]
+    trending_threshold: 100
+    cold_start_threshold: 5
+    
+  # Interaction features
+  interactions:
+    min_interactions_per_user: 2
+    min_interactions_per_item: 1
+    max_user_history: 50
+
+# Data quality thresholds
+quality:
+  min_customer_transactions: 1
+  min_article_sales: 1
+  max_missing_rate: 0.5
+  outlier_std_threshold: 3
+
+# Sampling for development
+development:
+  sample_customers: 10000
+  sample_articles: 5000  
+  sample_transactions: 100000
+  random_seed: 42 
