@@ -10,9 +10,13 @@ from .embedding_layers import (
 )
 from .customer_tower import (
     CustomerTower,
-    CustomerFeatureProcessor,
     create_customer_tower
 )
+from .article_tower import (
+    ArticleTower,
+    create_article_tower
+)
+from .tensor_converter import FeatureToTensorConverter
 
 __all__ = [
     'CategoricalEmbedding',
@@ -20,6 +24,8 @@ __all__ = [
     'MultiFeatureEmbedding',
     'TowerEncoder',
     'CustomerTower',
-    'CustomerFeatureProcessor',
-    'create_customer_tower'
+    'create_customer_tower',
+    'ArticleTower',
+    'create_article_tower',
+    'FeatureToTensorConverter'
 ] 

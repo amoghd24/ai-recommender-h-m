@@ -173,7 +173,7 @@ class MultiFeatureEmbedding(nn.Module):
                 embeddings.append(embedded)
         
         # Process numerical features
-        if numerical_features is not None and self.numerical_embedding:
+        if numerical_features is not None and self.numerical_embedding is not None:
             num_embedded = self.numerical_embedding(numerical_features)
             embeddings.append(num_embedded)
         
