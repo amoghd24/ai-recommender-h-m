@@ -91,7 +91,62 @@ class FeatureToTensorConverter:
         else:
             numerical_tensor = None
         
-        return categorical_tensors, numerical_tensor
+        return categorical_tensors, numerical_tensor 
+    
+    def convert_series(
+        self,
+        feature_series: pd.Series,
+        normalize_numerical: bool = True
+    ) -> Dict[str, torch.Tensor]:
+        """
+        Convert a single pandas Series with features to tensors
+        
+        Args:
+            feature_series: Pandas Series with feature values
+            normalize_numerical: Whether to normalize numerical features
+            
+        Returns:
+            Dictionary with 'categorical' and 'numerical' tensors
+        """
+        categorical_values = []
+        numerical_values = []
+        
+        # Process categorical features
+        for feature_name in self.categorical_features:
+            if feature_name in feature_series.index:
+                value = feature_series[feature_name]
+                
+                # Handle categorical dtype
+                if hasattr(value, 'cat'):
+                    categorical_values.append(value.cat.codes)
+                elif isinstance(value, str):
+                    # Convert string categories to numeric codes (simple hash)
+                    categorical_values.append(hash(value) % 10000)
+                else:
+                    categorical_values.append(int(value))
+        
+        # Process numerical features
+        for feature_name in self.numerical_features:
+            if feature_name in feature_series.index:
+                value = float(feature_series[feature_name])
+                
+                if normalize_numerical:
+                    config = self.feature_config.get(feature_name, {})
+                    mean = config.get('mean', 0.0)
+                    std = config.get('std', 1.0)
+                    if std > 0:
+                        value = (value - mean) / std
+                
+                numerical_values.append(value)
+        
+        # Convert to tensors
+        categorical_tensor = torch.LongTensor(categorical_values) if categorical_values else torch.LongTensor([])
+        numerical_tensor = torch.FloatTensor(numerical_values) if numerical_values else torch.FloatTensor([])
+        
+        return {
+            'categorical': categorical_tensor,
+            'numerical': numerical_tensor
+        }
     
     def convert_batch(
         self,
