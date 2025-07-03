@@ -170,6 +170,9 @@ class MultiFeatureEmbedding(nn.Module):
         for feature_name, feature_tensor in categorical_features.items():
             if feature_name in self.categorical_embeddings:
                 embedded = self.categorical_embeddings[feature_name](feature_tensor)
+                # Squeeze to remove extra dimension from (batch_size, 1, embed_dim) -> (batch_size, embed_dim)
+                if embedded.dim() == 3:
+                    embedded = embedded.squeeze(1)
                 embeddings.append(embedded)
         
         # Process numerical features

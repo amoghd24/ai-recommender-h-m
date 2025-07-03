@@ -17,6 +17,11 @@ from .article_tower import (
     create_article_tower
 )
 from .tensor_converter import FeatureToTensorConverter
+from .two_tower_model import (
+    TwoTowerModel,
+    create_two_tower_model,
+    TwoTowerLoss
+)
 
 __all__ = [
     'CategoricalEmbedding',
@@ -27,5 +32,8 @@ __all__ = [
     'create_customer_tower',
     'ArticleTower',
     'create_article_tower',
-    'FeatureToTensorConverter'
+    'FeatureToTensorConverter',
+    'TwoTowerModel',
+    'create_two_tower_model',
+    'TwoTowerLoss'
 ] 
