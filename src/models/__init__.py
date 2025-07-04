@@ -22,6 +22,7 @@ from .two_tower_model import (
     create_two_tower_model,
     TwoTowerLoss
 )
+from .ranking_model import RankingModel
 
 __all__ = [
     'CategoricalEmbedding',
@@ -35,5 +36,6 @@ __all__ = [
     'FeatureToTensorConverter',
     'TwoTowerModel',
     'create_two_tower_model',
-    'TwoTowerLoss'
+    'TwoTowerLoss',
+    'RankingModel'
 ] 
