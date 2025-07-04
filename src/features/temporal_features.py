@@ -78,11 +78,6 @@ class TemporalFeatureEngineer:
             features['favorite_month'] = customer_data['month'].mode().iloc[0] if len(customer_data) > 0 else 0
             features['weekend_purchase_ratio'] = customer_data['is_weekend'].mean()
             
-            # Add cyclic encoding for seasonal patterns (for two-tower model)
-            current_month = self.reference_date.month
-            features['month_sin'] = np.sin(2 * np.pi * current_month / 12)
-            features['month_cos'] = np.cos(2 * np.pi * current_month / 12)
-            
             # 4. Activity patterns
             features['purchases_last_30_days'] = len(customer_data[customer_data['t_dat'] >= self.reference_date - timedelta(days=30)])
             features['purchases_last_90_days'] = len(customer_data[customer_data['t_dat'] >= self.reference_date - timedelta(days=90)])
