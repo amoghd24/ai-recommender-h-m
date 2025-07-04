@@ -65,6 +65,16 @@ CUSTOMER_NUMERICAL_FEATURES = {
         'type': 'numerical',
         'normalize': True,
         'fillna': 0
+    },
+    'month_sin': {
+        'type': 'numerical',
+        'normalize': False,
+        'fillna': 0
+    },
+    'month_cos': {
+        'type': 'numerical',
+        'normalize': False,
+        'fillna': 0
     }
 }
 

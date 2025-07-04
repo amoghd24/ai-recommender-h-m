@@ -31,7 +31,7 @@ def test_temporal_features():
         'customer_id', 'days_since_last_purchase', 'days_since_first_purchase',
         'customer_lifespan_days', 'total_transactions', 'avg_days_between_purchases',
         'favorite_month', 'weekend_purchase_ratio', 'purchases_last_30_days',
-        'purchases_last_90_days', 'is_active_customer'
+        'purchases_last_90_days', 'is_active_customer', 'month_sin', 'month_cos'
     ]
     
     for feature in expected_customer_features:
@@ -42,6 +42,14 @@ def test_temporal_features():
     assert (customer_temporal['days_since_last_purchase'] >= 0).all(), "Invalid recency values"
     assert customer_temporal['weekend_purchase_ratio'].between(0, 1).all(), "Invalid weekend ratio"
     assert customer_temporal['favorite_month'].between(1, 12).all(), "Invalid favorite month"
+    
+    # Test cyclic encoding features
+    assert customer_temporal['month_sin'].between(-1, 1).all(), "Invalid month_sin values"
+    assert customer_temporal['month_cos'].between(-1, 1).all(), "Invalid month_cos values"
+    
+    # Test that all customers have the same cyclic encoding (based on reference date)
+    assert customer_temporal['month_sin'].nunique() == 1, "month_sin should be consistent across customers"
+    assert customer_temporal['month_cos'].nunique() == 1, "month_cos should be consistent across customers"
     print("✅ Customer temporal features are valid")
     
     # Test 3: Check article temporal features
